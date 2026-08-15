@@ -1,0 +1,36 @@
+Copyright (c) 2026 Praisebanks Studios. All Rights Reserved.
+
+This repository and all files contained within it, including but not
+limited to source code, markup, stylesheets, scripts, design assets,
+and written content (collectively, the "Software"), are the exclusive
+property of Praisebanks Studios.
+
+NO PERMISSION IS GRANTED to any person to copy, use, reproduce,
+distribute, publish, display, modify, adapt, translate, create
+derivative works from, sell, sublicense, or otherwise exploit the
+Software, in whole or in part, for any purpose, without the prior
+written consent of Praisebanks Studios.
+
+Specifically, and without limitation:
+
+  - You may NOT edit or modify this Software.
+  - You may NOT use this Software, in whole or in part, in any other
+    project, product, or website.
+  - You may NOT copy or redistribute this Software.
+  - You may NOT claim authorship or ownership of this Software or any
+    portion of it.
+
+Viewing the Software's publicly hosted output (e.g. the live website)
+does not constitute a grant of any of the rights above.
+
+Unauthorized use of this Software may result in legal action.
+
+For licensing inquiries or permission requests, contact Praisebanks
+Studios directly.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT.
+IN NO EVENT SHALL PRAISEBANKS STUDIOS BE LIABLE FOR ANY CLAIM, DAMAGES,
+OR OTHER LIABILITY ARISING FROM, OUT OF, OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

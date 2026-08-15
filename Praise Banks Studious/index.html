@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Praisebanks Studios — Memberships</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3CradialGradient id='g' cx='38%25' cy='32%25' r='75%25'%3E%3Cstop offset='0%25' stop-color='%23f6d478'/%3E%3Cstop offset='100%25' stop-color='%23b9772a'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%230b0a08'/%3E%3Ccircle cx='32' cy='32' r='19' fill='url(%23g)'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0b0a08;
+    --panel: #15120e;
+    --panel-elevated: #1c1710;
+    --gold: #e8b84b;
+    --gold-bright: #f6d478;
+    --amber: #b9772a;
+    --text: #f3ecdd;
+    --text-muted: #9c9384;
+    --border: rgba(232,184,74,0.14);
+    --border-bright: rgba(246,212,120,0.45);
+    --glow-rgb: 232,184,74;
+    --nav-bg: rgba(11,10,8,0.72);
+    --card-shadow: none;
+    --card-shadow-elevated: none;
+    --card-shadow-t6: none;
+  }
+
+  [data-theme="light"]{
+    --bg: #fbf1de;
+    --panel: #fffaf0;
+    --panel-elevated: #fff1d2;
+    --gold: #a8601c;
+    --gold-bright: #c9791f;
+    --amber: #8a4e18;
+    --text: #2a1f10;
+    --text-muted: #7d6c50;
+    --border: rgba(168,96,28,0.18);
+    --border-bright: rgba(168,96,28,0.5);
+    --glow-rgb: 201,121,31;
+    --nav-bg: rgba(251,241,222,0.78);
+    --card-shadow: 0 6px 28px rgba(120,74,16,0.10);
+    --card-shadow-elevated: 0 14px 44px rgba(120,74,16,0.16);
+    --card-shadow-t6: 0 18px 56px rgba(120,74,16,0.22);
+  }
+
+  [data-theme="light"] body{
+    background:
+      radial-gradient(ellipse 900px 500px at 50% -10%, rgba(233,166,64,0.24), transparent 60%),
+      linear-gradient(180deg, #fef8ec 0%, #fbf1de 55%, #f7e8c9 100%);
+  }
+  [data-theme="light"] .tier-card{ box-shadow: var(--card-shadow); }
+  [data-theme="light"] .tier-card.t3,
+  [data-theme="light"] .tier-card.t4,
+  [data-theme="light"] .tier-card.t5{ box-shadow: var(--card-shadow-elevated); }
+  [data-theme="light"] .tier-card.t6{ box-shadow: var(--card-shadow-t6); }
+
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    transition: background-color .35s ease, color .35s ease;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+  }
+
+  a{ color: inherit; text-decoration: none; }
+  :focus-visible{ outline: 2px solid var(--gold-bright); outline-offset: 3px; }
+
+  .wrap{ max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position: sticky; top:0; z-index: 50;
+    backdrop-filter: blur(14px);
+    background: var(--nav-bg);
+    border-bottom: 1px solid var(--border);
+  }
+  nav .wrap{ display:flex; align-items:center; justify-content:space-between; height: 76px; }
+  .brand{ display:flex; align-items:center; gap:10px; font-family:'Fraunces', serif; font-weight:600; font-size: 1.15rem; letter-spacing: 0.01em; }
+  .brand .mark{
+    width: 32px; height: 32px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, var(--gold-bright), var(--amber) 70%);
+    box-shadow: 0 0 18px rgba(var(--glow-rgb),0.55);
+    flex-shrink: 0;
+  }
+  .nav-cta{
+    font-family:'JetBrains Mono', monospace; font-size: 0.78rem; letter-spacing: 0.04em;
+    text-transform: uppercase; padding: 10px 20px; border: 1px solid var(--border-bright);
+    border-radius: 999px; transition: all .25s ease; white-space: nowrap;
+  }
+  .nav-cta:hover{ background: var(--gold); color:#100c06; box-shadow: 0 0 24px rgba(var(--glow-rgb),0.4); }
+
+  .nav-right{ display:flex; align-items:center; gap: 14px; }
+
+  .theme-toggle{
+    width: 42px; height: 42px; border-radius: 50%;
+    border: 1px solid var(--border-bright); background: transparent;
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    color: var(--gold); transition: all .25s ease; flex-shrink:0;
+  }
+  .theme-toggle:hover{ background: rgba(var(--glow-rgb),0.1); }
+  .theme-toggle svg{ width: 18px; height: 18px; }
+  .theme-toggle .icon-moon{ display:none; }
+  [data-theme="light"] .theme-toggle .icon-sun{ display:none; }
+  [data-theme="light"] .theme-toggle .icon-moon{ display:block; }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position: relative;
+    padding: 140px 0 120px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero::before{
+    content:''; position:absolute; top: -10%; left:50%; transform: translateX(-50%);
+    width: 900px; height: 900px; max-width: 200vw;
+    background: radial-gradient(circle, rgba(var(--glow-rgb),0.20) 0%, rgba(var(--glow-rgb),0.06) 35%, transparent 68%);
+    pointer-events:none;
+    animation: breathe 8s ease-in-out infinite;
+  }
+  @keyframes breathe{ 0%,100%{ opacity:0.85; } 50%{ opacity:1; } }
+
+  .eyebrow{
+    position:relative; font-family:'JetBrains Mono', monospace; font-size: 0.78rem;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold);
+    margin-bottom: 22px;
+  }
+  h1{
+    position:relative;
+    font-family:'Fraunces', serif; font-weight: 600; font-optical-sizing: auto;
+    font-size: clamp(2.5rem, 6.5vw, 5rem);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    max-width: 820px; margin: 0 auto 24px;
+  }
+  h1 em{
+    font-style: italic; font-weight: 400;
+    background: linear-gradient(120deg, var(--gold-bright), var(--amber));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero p{
+    position:relative;
+    max-width: 560px; margin: 0 auto 40px;
+    color: var(--text-muted); font-size: 1.08rem; line-height: 1.65;
+  }
+  .hero-actions{ position:relative; display:flex; gap:16px; justify-content:center; flex-wrap: wrap; }
+  .btn-primary, .btn-ghost{
+    font-family:'JetBrains Mono', monospace; font-size: 0.82rem; letter-spacing:0.03em;
+    text-transform: uppercase; padding: 15px 30px; border-radius: 999px; transition: all .25s ease;
+    display:inline-block;
+  }
+  .btn-primary{ background: linear-gradient(120deg, var(--gold-bright), var(--gold)); color:#100c06; font-weight:600; }
+  .btn-primary:hover{ box-shadow: 0 0 32px rgba(var(--glow-rgb),0.5); transform: translateY(-2px); }
+  .btn-ghost{ border: 1px solid var(--border-bright); }
+  .btn-ghost:hover{ background: rgba(var(--glow-rgb),0.08); }
+
+  /* ---------- SECTION HEADS ---------- */
+  .section-head{ text-align:center; max-width: 640px; margin: 0 auto 64px; }
+  .section-head .eyebrow{ margin-bottom: 16px; }
+  .section-head h2{
+    font-family:'Fraunces', serif; font-weight: 500; font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+    line-height: 1.2; margin-bottom: 16px;
+  }
+  .section-head p{ color: var(--text-muted); font-size: 1rem; line-height: 1.6; }
+
+  /* ---------- TIERS ---------- */
+  .tiers{ padding: 100px 0 60px; }
+  .tier-grid{
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px;
+  }
+  .tier-card{
+    position: relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 32px 26px 28px;
+    display: flex; flex-direction: column;
+    transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+    --glow: 0.08;
+  }
+  .tier-card:hover{ transform: translateY(-6px); border-color: var(--border-bright); }
+  .tier-card::after{
+    content:''; position:absolute; inset:0; border-radius:18px; pointer-events:none;
+    box-shadow: 0 0 0 rgba(var(--glow-rgb),0);
+    transition: box-shadow .3s ease;
+  }
+  .tier-card:hover::after{ box-shadow: 0 0 40px rgba(var(--glow-rgb), var(--glow)); }
+
+  /* Ascending glow — later tiers glow more, feel more "elevated" */
+  .tier-card.t1{ --glow: 0.10; }
+  .tier-card.t2{ --glow: 0.16; }
+  .tier-card.t3{ --glow: 0.24; background: linear-gradient(160deg, var(--panel-elevated), var(--panel)); }
+  .tier-card.t4{ --glow: 0.32; background: linear-gradient(160deg, var(--panel-elevated), var(--panel)); border-color: rgba(var(--glow-rgb),0.22); }
+  .tier-card.t5{ --glow: 0.42; background: linear-gradient(160deg, var(--panel-elevated), var(--panel)); border-color: rgba(var(--glow-rgb),0.30); }
+  .tier-card.t6{
+    --glow: 0.55; grid-column: span 3;
+    background: linear-gradient(115deg, #1f1810, #241c11 45%, #1a1509);
+    border: 1px solid rgba(246,212,120,0.5);
+    box-shadow: 0 0 46px rgba(var(--glow-rgb),0.16);
+    padding: 40px 40px;
+    flex-direction: row; align-items: center; gap: 36px; justify-content: space-between; flex-wrap: wrap;
+    /* This card is always the dark "inner circle" accent, regardless of site theme —
+       lock its text colors so they stay readable against its own dark background. */
+    --text: #f3ecdd;
+    --text-muted: #beb29a;
+    --gold: #e8b84b;
+    --gold-bright: #f6d478;
+    --glow-rgb: 232,184,74;
+  }
+  .tier-card.t6 .tier-body{ flex: 1; min-width: 260px; }
+  .tier-card.t6 .tier-cta{ align-self: center; min-width: 220px; }
+
+  .tier-icon{ font-size: 1.9rem; margin-bottom: 14px; display:block; }
+  .tier-name{ font-family:'Fraunces', serif; font-weight: 600; font-size: 1.28rem; margin-bottom: 6px; }
+  .tier-price{
+    font-family:'JetBrains Mono', monospace; font-size: 1.6rem; font-weight: 600;
+    color: var(--gold-bright); margin-bottom: 4px;
+  }
+  .tier-price span{ font-size: 0.75rem; color: var(--text-muted); font-weight: 400; margin-left: 4px; }
+  .tier-sub{ font-size: 0.8rem; color: var(--text-muted); margin-bottom: 22px; font-family:'JetBrains Mono', monospace; }
+
+  .tier-features{ list-style:none; display:flex; flex-direction:column; gap: 11px; margin-bottom: 26px; flex:1; }
+  .tier-features li{ display:flex; gap: 10px; font-size: 0.9rem; color: var(--text); line-height:1.4; align-items:flex-start; }
+  .tier-features li::before{
+    content:'✦'; color: var(--gold); font-size: 0.75rem; margin-top: 3px; flex-shrink:0;
+  }
+  .tier-features li.inherit{ color: var(--text-muted); font-style: italic; }
+  .tier-features li.inherit::before{ content:'↳'; color: var(--text-muted); }
+
+  .tier-cta{
+    display:block; text-align:center; padding: 13px 20px; border-radius: 999px;
+    font-family:'JetBrains Mono', monospace; font-size: 0.78rem; letter-spacing:0.03em;
+    text-transform: uppercase; border: 1px solid var(--border-bright);
+    transition: all .25s ease;
+  }
+  .tier-card.t1 .tier-cta, .tier-card.t2 .tier-cta{ border-color: var(--border); }
+  .tier-cta:hover{ background: var(--gold); color:#100c06; box-shadow: 0 0 22px rgba(var(--glow-rgb),0.4); }
+  .tier-card.t6 .tier-cta{ background: linear-gradient(120deg, var(--gold-bright), var(--gold)); color:#100c06; font-weight:600; border:none; }
+  .tier-card.t6 .tier-cta:hover{ box-shadow: 0 0 32px rgba(var(--glow-rgb),0.55); }
+
+  .system-toggle{
+    display: inline-flex; align-items: center; gap: 8px;
+    background: none; border: none; cursor: pointer;
+    font-family:'JetBrains Mono', monospace; font-size: 0.76rem; letter-spacing: 0.04em;
+    text-transform: uppercase; color: var(--gold-bright);
+    padding: 0; margin-top: 4px;
+  }
+  .system-toggle .chev{ transition: transform .3s ease; }
+  .system-toggle[aria-expanded="true"] .chev{ transform: rotate(180deg); }
+  .system-toggle:hover{ color: var(--gold); }
+
+  .system-panel{
+    max-height: 0; overflow: hidden; transition: max-height .4s ease, margin-top .4s ease;
+    margin-top: 0;
+  }
+  .system-panel.open{ max-height: 900px; margin-top: 18px; }
+  .system-list{
+    list-style: none; display: flex; flex-direction: column; gap: 10px;
+    border-top: 1px solid rgba(var(--glow-rgb),0.18); padding-top: 18px;
+  }
+  .system-intro{
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
+    font-size: 0.98rem; line-height: 1.55; color: var(--gold-bright);
+    border-top: 1px solid rgba(var(--glow-rgb),0.18); padding-top: 18px;
+  }
+  .system-panel .system-list{ border-top: none; padding-top: 16px; }
+  .system-list li{
+    display: flex; gap: 10px; align-items: flex-start;
+    font-size: 0.86rem; line-height: 1.5; color: var(--text);
+  }
+  .system-list li span{ flex-shrink: 0; }
+
+  .badge-top{
+    position:absolute; top:-12px; right: 24px;
+    background: var(--gold); color:#100c06; font-family:'JetBrains Mono', monospace;
+    font-size: 0.68rem; letter-spacing:0.05em; text-transform:uppercase;
+    padding: 5px 12px; border-radius: 999px; font-weight:600;
+  }
+  .badge-inner{
+    background: var(--gold-bright);
+  }
+
+  /* ---------- HOW IT WORKS ---------- */
+  .how{ padding: 100px 0; border-top: 1px solid var(--border); }
+  .how-grid{ display:grid; grid-template-columns: repeat(3,1fr); gap: 32px; }
+  .how-item{ text-align:center; padding: 0 12px; }
+  .how-num{
+    font-family:'Fraunces', serif; font-size: 2.2rem; color: var(--gold);
+    margin-bottom: 14px; font-weight: 500;
+  }
+  .how-item h3{ font-family:'Fraunces', serif; font-size: 1.15rem; font-weight:600; margin-bottom: 10px; }
+  .how-item p{ color: var(--text-muted); font-size: 0.92rem; line-height: 1.6; }
+
+  /* ---------- FOOTER CTA ---------- */
+  .footer-cta{
+    padding: 100px 0 60px; text-align:center; position:relative;
+  }
+  .footer-cta::before{
+    content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
+    width:600px; height:400px; max-width:180vw;
+    background: radial-gradient(circle, rgba(var(--glow-rgb),0.14), transparent 70%);
+    pointer-events:none;
+  }
+  .footer-cta h2{ font-family:'Fraunces', serif; font-size: clamp(1.9rem,4vw,2.8rem); font-weight:500; margin-bottom: 18px; position:relative; }
+  .footer-cta p{ color: var(--text-muted); max-width: 480px; margin: 0 auto 34px; position:relative; }
+
+  footer{ border-top: 1px solid var(--border); padding: 40px 0; }
+  footer .wrap{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px; }
+  .footer-brand{ font-family:'Fraunces', serif; font-size:1rem; color: var(--text-muted); }
+  .footer-links{ display:flex; gap: 24px; }
+  .footer-links a{ font-size: 0.85rem; color: var(--text-muted); transition: color .2s ease; }
+  .footer-links a:hover{ color: var(--gold); }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 880px){
+    .tier-grid{ grid-template-columns: repeat(2,1fr); }
+    .tier-card.t6{ grid-column: span 2; flex-direction: column; align-items: stretch; text-align:left; }
+    .tier-card.t6 .tier-cta{ align-self: stretch; }
+    .how-grid{ grid-template-columns: 1fr; gap: 40px; }
+  }
+  @media (max-width: 620px){
+    .hero{ padding: 110px 0 80px; }
+    .tier-grid{ grid-template-columns: 1fr; }
+    .tier-card.t6{ grid-column: span 1; }
+    nav .wrap{ height: 66px; }
+    .brand span.name{ font-size: 1rem; }
+    .nav-cta{ padding: 8px 14px; font-size: 0.7rem; }
+    .hero-actions{ flex-direction: column; align-items: stretch; }
+    footer .wrap{ flex-direction: column; text-align:center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand"><span class="mark"></span><span class="name">Praisebanks Studios</span></div>
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle light and dark mode">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.4 4.4l1.7 1.7M17.9 17.9l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.4 19.6l1.7-1.7M17.9 6.1l1.7-1.7"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.7A8.5 8.5 0 1 1 9.3 3.5a7 7 0 0 0 11.2 11.2Z"/></svg>
+      </button>
+      <a class="nav-cta" href="#tiers">Join a Tier</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Praisebanks Studios · Membership</div>
+    <h1>Step closer to the <em>light</em>, one tier at a time.</h1>
+    <p>Six ways to support the channel and get closer to the work — from a loyalty badge to a seat in the inner circle. Pick the one that fits, upgrade whenever you're ready.</p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="#tiers">See Membership Tiers</a>
+      <a class="btn-ghost" href="https://youtube.com/@praisebanks?si=7B3ha9k2T8dchtSO" target="_blank" rel="noopener">Watch on YouTube</a>
+    </div>
+  </div>
+</section>
+
+<section class="tiers" id="tiers">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Memberships</div>
+      <h2>Choose your place in the circle</h2>
+      <p>Every tier carries everything below it. The higher you go, the closer you get.</p>
+    </div>
+
+    <div class="tier-grid">
+
+      <div class="tier-card t1">
+        <span class="tier-icon">❤️</span>
+        <div class="tier-name">Channel Supporter</div>
+        <div class="tier-price">₦5,000<span>/ month</span></div>
+        <div class="tier-sub">TIER 01 · THE FIRST STEP</div>
+        <ul class="tier-features">
+          <li>Loyalty badges</li>
+          <li>Custom member emoji</li>
+          <li>Members-only polls</li>
+        </ul>
+        <a class="tier-cta" href="https://www.youtube.com/channel/UCQwlkFycHG1pO2MhN8tXKPQ/join" target="_blank" rel="noopener">Join as Supporter</a>
+      </div>
+
+      <div class="tier-card t2">
+        <span class="tier-icon">🔥</span>
+        <div class="tier-name">VIP Supporter</div>
+        <div class="tier-price">₦10,000<span>/ month</span></div>
+        <div class="tier-sub">TIER 02</div>
+        <ul class="tier-features">
+          <li>Member shout-outs</li>
+          <li class="inherit">Everything in Channel Supporter</li>
+        </ul>
+        <a class="tier-cta" href="https://www.youtube.com/channel/UCQwlkFycHG1pO2MhN8tXKPQ/join" target="_blank" rel="noopener">Join as VIP</a>
+      </div>
+
+      <div class="tier-card t3">
+        <span class="badge-top">Popular</span>
+        <span class="tier-icon">👑</span>
+        <div class="tier-name">Premium Member</div>
+        <div class="tier-price">₦25,000<span>/ month</span></div>
+        <div class="tier-sub">TIER 03</div>
+        <ul class="tier-features">
+          <li>Priority replies to comments</li>
+          <li>Members-only live chats</li>
+          <li>Exclusive behind-the-scenes videos</li>
+          <li class="inherit">Everything in VIP Supporter</li>
+        </ul>
+        <a class="tier-cta" href="https://www.youtube.com/channel/UCQwlkFycHG1pO2MhN8tXKPQ/join" target="_blank" rel="noopener">Join as Premium</a>
+      </div>
+
+      <div class="tier-card t4">
+        <span class="tier-icon">💎</span>
+        <div class="tier-name">Elite Member</div>
+        <div class="tier-price">₦50,000<span>/ month</span></div>
+        <div class="tier-sub">TIER 04</div>
+        <ul class="tier-features">
+          <li>Members-only chat rooms</li>
+          <li>Personal Q&A with me</li>
+          <li>Members-only live streams</li>
+          <li class="inherit">Everything in Premium Member</li>
+        </ul>
+        <a class="tier-cta" href="https://www.youtube.com/channel/UCQwlkFycHG1pO2MhN8tXKPQ/join" target="_blank" rel="noopener">Join as Elite</a>
+      </div>
+
+      <div class="tier-card t5">
+        <span class="tier-icon">🏆</span>
+        <div class="tier-name">Founding Supporter</div>
+        <div class="tier-price">₦100,000<span>/ month</span></div>
+        <div class="tier-sub">TIER 05</div>
+        <ul class="tier-features">
+          <li>Highest supporter badge</li>
+          <li>Special recognition in the community</li>
+          <li>Channel Partner status</li>
+          <li class="inherit">Everything in Elite Member</li>
+        </ul>
+        <a class="tier-cta" href="https://www.youtube.com/channel/UCQwlkFycHG1pO2MhN8tXKPQ/join" target="_blank" rel="noopener">Join as Founding Supporter</a>
+      </div>
+
+      <div class="tier-card t6">
+        <div class="tier-body">
+          <span class="badge-top badge-inner">Inner Circle</span>
+          <span class="tier-icon">⭕</span>
+          <div class="tier-name">Private Circle</div>
+          <div class="tier-price">₦500,000<span>/ month</span></div>
+          <div class="tier-sub">TIER 06 · BY INVITATION</div>
+          <ul class="tier-features">
+            <li>Full access to THE SYSTEM</li>
+            <li class="inherit">Everything in Founding Supporter</li>
+          </ul>
+          <button class="system-toggle" id="systemToggle" aria-expanded="false" aria-controls="systemPanel">
+            <span>More about THE SYSTEM</span>
+            <svg class="chev" width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="system-panel" id="systemPanel">
+            <p class="system-intro">A closed community for ambitious minds to connect, collaborate, build businesses, and create opportunities together.</p>
+            <ul class="system-list">
+              <li><span>🤝</span> Private monthly meetups — in-person or virtual</li>
+              <li><span>💡</span> Business idea sessions — share and develop ideas together</li>
+              <li><span>📈</span> Trading discussions — markets, strategies and experiences</li>
+              <li><span>🚀</span> Collaboration opportunities — explore projects and businesses together</li>
+              <li><span>🧠</span> Private strategy sessions — goals, challenges and opportunities</li>
+              <li><span>🔐</span> Private Inner Circle group — exclusive community for members</li>
+              <li><span>🎯</span> Personal growth discussions — accountability, goals and development</li>
+              <li><span>🤝</span> Networking — connect with other ambitious members</li>
+              <li><span>🎥</span> Private calls with you — selected group discussions</li>
+              <li><span>💼</span> Early access to business opportunities and projects you choose to share</li>
+              <li><span>🏙️</span> Exclusive physical meetups and events when possible</li>
+              <li><span>👑</span> Lifetime recognition as an Inner Circle member while subscribed</li>
+              <li><span>🌴</span> Members' vacation</li>
+            </ul>
+          </div>
+        </div>
+        <a class="tier-cta" href="https://www.youtube.com/channel/UCQwlkFycHG1pO2MhN8tXKPQ/join" target="_blank" rel="noopener">Join the Private Circle</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="how">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">How it works</div>
+      <h2>Simple, no strings attached</h2>
+    </div>
+    <div class="how-grid">
+      <div class="how-item">
+        <div class="how-num">01</div>
+        <h3>Pick a tier</h3>
+        <p>Choose the membership that fits your budget and how close you want to be to the process.</p>
+      </div>
+      <div class="how-item">
+        <div class="how-num">02</div>
+        <h3>Join monthly</h3>
+        <p>Memberships renew every month. Cancel, pause, or move up a tier whenever you like.</p>
+      </div>
+      <div class="how-item">
+        <div class="how-num">03</div>
+        <h3>Get recognized</h3>
+        <p>Your badge, perks, and access unlock right away — and carry forward if you ever upgrade.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="footer-cta">
+  <div class="wrap">
+    <h2>Ready to step in?</h2>
+    <p>Six tiers, one community. Start wherever makes sense — you can always move closer to the light later.</p>
+    <a class="btn-primary" href="#tiers">Choose Your Tier</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-brand">Praisebanks Studios</div>
+    <div class="footer-links">
+      <a href="https://youtube.com/@praisebanks?si=7B3ha9k2T8dchtSO" target="_blank" rel="noopener">YouTube</a>
+      <a href="#" target="_blank" rel="noopener">Instagram</a>
+      <a href="#" target="_blank" rel="noopener">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const toggle = document.getElementById('systemToggle');
+  const panel = document.getElementById('systemPanel');
+  toggle.addEventListener('click', () => {
+    const isOpen = panel.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', isOpen);
+  });
+
+  const themeBtn = document.getElementById('themeToggle');
+  const root = document.documentElement;
+  const saved = localStorage.getItem('praisebanks-theme');
+  if(saved === 'light'){ root.setAttribute('data-theme', 'light'); }
+  themeBtn.addEventListener('click', () => {
+    const isLight = root.getAttribute('data-theme') === 'light';
+    if(isLight){
+      root.removeAttribute('data-theme');
+      localStorage.setItem('praisebanks-theme', 'dark');
+    } else {
+      root.setAttribute('data-theme', 'light');
+      localStorage.setItem('praisebanks-theme', 'light');
+    }
+  });
+</script>
+</body>
+</html>
