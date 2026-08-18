@@ -1,0 +1,72 @@
+/* ==========================================================================
+   CONTACT PAGE — inquiry categories, contact form, direct info
+   Loaded only on contact.html, on top of shared.css.
+   ========================================================================== */
+
+.contact-hero{ padding: 100px 0 70px; }
+.contact-hero p{ margin-bottom: 0; }
+
+/* ---------- INQUIRY CATEGORIES ---------- */
+.inquiries{ padding: 0 0 90px; }
+.inquiry-grid{ display:grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.inquiry-card{
+  border: 1px solid var(--border); border-radius: 16px; padding: 26px 22px;
+  background: var(--panel); backdrop-filter: var(--card-blur); -webkit-backdrop-filter: var(--card-blur);
+  transition: transform .3s ease, border-color .3s ease;
+}
+.inquiry-card:hover{ transform: translateY(-4px); border-color: var(--border-bright); }
+.inquiry-icon{ font-size: 1.5rem; margin-bottom: 12px; display:block; }
+.inquiry-card h3{ font-family:'Fraunces', serif; font-size: 1.02rem; font-weight: 600; margin-bottom: 8px; }
+.inquiry-card p{ color: var(--text-muted); font-size: 0.85rem; line-height: 1.5; }
+
+/* ---------- FORM + DIRECT INFO ---------- */
+.contact-main{ padding: 0 0 110px; }
+.contact-main .wrap{ display:grid; grid-template-columns: 1.3fr 0.9fr; gap: 56px; align-items:start; }
+
+.contact-form{
+  background: var(--panel); backdrop-filter: var(--card-blur); -webkit-backdrop-filter: var(--card-blur);
+  border: 1px solid var(--border); border-radius: 20px;
+  padding: 40px;
+}
+.form-row{ margin-bottom: 20px; }
+.form-row:last-of-type{ margin-bottom: 0; }
+.form-row label{
+  display:block; font-family:'JetBrains Mono', monospace; font-size: 0.72rem;
+  letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px;
+}
+.form-row input, .form-row textarea{
+  width: 100%; background: var(--bg); border: 1px solid var(--border);
+  border-radius: 10px; padding: 13px 15px; color: var(--text); font-family: 'Inter', sans-serif;
+  font-size: 0.95rem; transition: border-color .2s ease;
+}
+.form-row input:focus, .form-row textarea:focus{ border-color: var(--border-bright); outline:none; }
+.form-row textarea{ min-height: 130px; resize: vertical; font-family:'Inter', sans-serif; }
+.contact-form .btn-primary{ width:100%; text-align:center; margin-top: 8px; border:none; }
+.form-status{
+  margin-top: 16px; font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;
+  display:none;
+}
+.form-status.visible{ display:block; }
+
+.contact-info{ display:flex; flex-direction:column; gap: 28px; }
+.contact-info-block .eyebrow{ margin-bottom: 12px; }
+.contact-info-block h3{ font-family:'Fraunces', serif; font-size: 1.15rem; font-weight: 600; margin-bottom: 10px; }
+.contact-info-block p{ color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 14px; }
+.contact-links{ display:flex; flex-direction:column; gap: 10px; }
+.contact-links a{
+  font-size: 0.9rem; color: var(--text); border-bottom: 1px solid var(--border);
+  padding-bottom: 8px; transition: color .2s ease, border-color .2s ease;
+}
+.contact-links a:hover{ color: var(--gold-bright); border-color: var(--border-bright); }
+
+/* ---------- CONTACT RESPONSIVE ---------- */
+@media (max-width: 980px){
+  .inquiry-grid{ grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 880px){
+  .contact-main .wrap{ grid-template-columns: 1fr; gap: 40px; }
+  .contact-form{ padding: 28px; }
+}
+@media (max-width: 520px){
+  .inquiry-grid{ grid-template-columns: 1fr; }
+}

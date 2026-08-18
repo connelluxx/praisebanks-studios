@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" data-palette="purple" data-mode="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Praisebanks Studios — Memberships</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3CradialGradient id='g' cx='38%25' cy='32%25' r='75%25'%3E%3Cstop offset='0%25' stop-color='%23b79bf5'/%3E%3Cstop offset='100%25' stop-color='%236d4fbf'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%230b0a08'/%3E%3Ccircle cx='32' cy='32' r='19' fill='url(%23g)'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<link rel="stylesheet" href="membership.css">
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="index.html" class="brand"><span class="mark"></span><span class="name">Praisebanks Studios</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li><a href="membership.html" class="nav-link active" aria-current="page">Membership</a></li>
+      <li><a href="contact.html" class="nav-link">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="palette-toggle" id="paletteToggle" aria-label="Switch color theme between gold and purple">
+        <svg class="icon-to-gold" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#e8b84b"/></svg>
+        <svg class="icon-to-purple" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="#a78bfa"/></svg>
+      </button>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle light and dark mode">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.4 4.4l1.7 1.7M17.9 17.9l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.4 19.6l1.7-1.7M17.9 6.1l1.7-1.7"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.7A8.5 8.5 0 1 1 9.3 3.5a7 7 0 0 0 11.2 11.2Z"/></svg>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+<div class="mobile-overlay" id="mobileOverlay">
+  <button class="mobile-overlay-close" id="mobileOverlayClose" aria-label="Close menu">&times;</button>
+  <a href="index.html" class="mobile-overlay-link">Home</a>
+  <a href="membership.html" class="mobile-overlay-link active" aria-current="page">Membership</a>
+  <a href="contact.html" class="mobile-overlay-link">Contact</a>
+</div>
+
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Praisebanks Studios · Membership</div>
+    <h1>Step closer to the <em>light</em>, one tier at a time.</h1>
+    <p>Six ways to support the channel and get closer to the work — from a loyalty badge to a seat in the inner circle. Pick the one that fits, upgrade whenever you're ready.</p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="#tiers">See Membership Tiers</a>
+      <a class="btn-ghost" href="https://youtube.com/@praisebanks?si=7B3ha9k2T8dchtSO" target="_blank" rel="noopener">Watch on YouTube</a>
+    </div>
+  </div>
+</section>
+
+<section class="tiers" id="tiers">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Memberships</div>
+      <h2>Choose your place in the circle</h2>
+      <p>Every tier carries everything below it. The higher you go, the closer you get.</p>
+    </div>
+
+    <div class="tier-grid">
+
+      <div class="tier-card t1">
+        <span class="tier-icon">❤️</span>
+        <div class="tier-name">Channel Supporter</div>
+        <div class="tier-price">₦5,000<span>/ month</span></div>
+        <div class="tier-sub">TIER 01 · THE FIRST STEP</div>
+        <ul class="tier-features">
+          <li>Loyalty badges</li>
+          <li>Custom member emoji</li>
+          <li>Members-only polls</li>
+        </ul>
+        <a class="tier-cta" href="https://www.youtube.com/channel/UCQwlkFycHG1pO2MhN8tXKPQ/join" target="_blank" rel="noopener">Join as Supporter</a>
+      </div>
+
+      <div class="tier-card t2">
+        <span class="tier-icon">🔥</span>
+        <div class="tier-name">VIP Supporter</div>
+        <div class="tier-price">₦10,000<span>/ month</span></div>
+        <div class="tier-sub">TIER 02</div>
+        <ul class="tier-features">
+          <li>Member shout-outs</li>
+          <li class="inherit">Everything in Channel Supporter</li>
+        </ul>
+        <a class="tier-cta" href="https://www.youtube.com/channel/UCQwlkFycHG1pO2MhN8tXKPQ/join" target="_blank" rel="noopener">Join as VIP</a>
+      </div>
+
+      <div class="tier-card t3">
+        <span class="badge-top">Popular</span>
+        <span class="tier-icon">👑</span>
+        <div class="tier-name">Premium Member</div>
+        <div class="tier-price">₦25,000<span>/ month</span></div>
+        <div class="tier-sub">TIER 03</div>
+        <ul class="tier-features">
+          <li>Priority replies to comments</li>
+          <li>Members-only live chats</li>
+          <li>Exclusive behind-the-scenes videos</li>
+          <li class="inherit">Everything in VIP Supporter</li>
+        </ul>
+        <a class="tier-cta" href="https://www.youtube.com/channel/UCQwlkFycHG1pO2MhN8tXKPQ/join" target="_blank" rel="noopener">Join as Premium</a>
+      </div>
+
+      <div class="tier-card t4">
+        <span class="tier-icon">💎</span>
+        <div class="tier-name">Elite Member</div>
+        <div class="tier-price">₦50,000<span>/ month</span></div>
+        <div class="tier-sub">TIER 04</div>
+        <ul class="tier-features">
+          <li>Members-only chat rooms</li>
+          <li>Personal Q&A with me</li>
+          <li>Members-only live streams</li>
+          <li class="inherit">Everything in Premium Member</li>
+        </ul>
+        <a class="tier-cta" href="https://www.youtube.com/channel/UCQwlkFycHG1pO2MhN8tXKPQ/join" target="_blank" rel="noopener">Join as Elite</a>
+      </div>
+
+      <div class="tier-card t5">
+        <span class="tier-icon">🏆</span>
+        <div class="tier-name">Founding Supporter</div>
+        <div class="tier-price">₦100,000<span>/ month</span></div>
+        <div class="tier-sub">TIER 05</div>
+        <ul class="tier-features">
+          <li>Highest supporter badge</li>
+          <li>Special recognition in the community</li>
+          <li>Channel Partner status</li>
+          <li class="inherit">Everything in Elite Member</li>
+        </ul>
+        <a class="tier-cta" href="https://www.youtube.com/channel/UCQwlkFycHG1pO2MhN8tXKPQ/join" target="_blank" rel="noopener">Join as Founding Supporter</a>
+      </div>
+
+      <div class="tier-card t6">
+        <div class="tier-body">
+          <span class="badge-top badge-inner">Inner Circle</span>
+          <span class="tier-icon">⭕</span>
+          <div class="tier-name">Private Circle</div>
+          <div class="tier-price">₦500,000<span>/ month</span></div>
+          <div class="tier-sub">TIER 06 · BY INVITATION</div>
+          <ul class="tier-features">
+            <li>Full access to THE SYSTEM</li>
+            <li class="inherit">Everything in Founding Supporter</li>
+          </ul>
+          <button class="system-toggle" id="systemToggle" aria-expanded="false" aria-controls="systemPanel">
+            <span>More about THE SYSTEM</span>
+            <svg class="chev" width="12" height="8" viewBox="0 0 12 8" fill="none"><path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="system-panel" id="systemPanel">
+            <p class="system-intro">A closed community for ambitious minds to connect, collaborate, build businesses, and create opportunities together.</p>
+            <ul class="system-list">
+              <li><span>🤝</span> Private monthly meetups — in-person or virtual</li>
+              <li><span>💡</span> Business idea sessions — share and develop ideas together</li>
+              <li><span>📈</span> Trading discussions — markets, strategies and experiences</li>
+              <li><span>🚀</span> Collaboration opportunities — explore projects and businesses together</li>
+              <li><span>🧠</span> Private strategy sessions — goals, challenges and opportunities</li>
+              <li><span>🔐</span> Private Inner Circle group — exclusive community for members</li>
+              <li><span>🎯</span> Personal growth discussions — accountability, goals and development</li>
+              <li><span>🤝</span> Networking — connect with other ambitious members</li>
+              <li><span>🎥</span> Private calls with you — selected group discussions</li>
+              <li><span>💼</span> Early access to business opportunities and projects you choose to share</li>
+              <li><span>🏙️</span> Exclusive physical meetups and events when possible</li>
+              <li><span>👑</span> Lifetime recognition as an Inner Circle member while subscribed</li>
+              <li><span>🌴</span> Members' vacation</li>
+            </ul>
+          </div>
+        </div>
+        <a class="tier-cta" href="https://www.youtube.com/channel/UCQwlkFycHG1pO2MhN8tXKPQ/join" target="_blank" rel="noopener">Join the Private Circle</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="how">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">How it works</div>
+      <h2>Simple, no strings attached</h2>
+    </div>
+    <div class="how-grid">
+      <div class="how-item">
+        <div class="how-num">01</div>
+        <h3>Pick a tier</h3>
+        <p>Choose the membership that fits your budget and how close you want to be to the process.</p>
+      </div>
+      <div class="how-item">
+        <div class="how-num">02</div>
+        <h3>Join monthly</h3>
+        <p>Memberships renew every month. Cancel, pause, or move up a tier whenever you like.</p>
+      </div>
+      <div class="how-item">
+        <div class="how-num">03</div>
+        <h3>Get recognized</h3>
+        <p>Your badge, perks, and access unlock right away — and carry forward if you ever upgrade.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="footer-cta">
+  <div class="wrap">
+    <h2>Ready to step in?</h2>
+    <p>Six tiers, one community. Start wherever makes sense — you can always move closer to the light later.</p>
+    <a class="btn-primary" href="#tiers">Choose Your Tier</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-brand">Praisebanks Studios</div>
+    <div class="footer-links">
+      <a href="https://youtube.com/@praisebanks?si=7B3ha9k2T8dchtSO" target="_blank" rel="noopener">YouTube</a>
+      <a href="https://instagram.com/praisebanks" target="_blank" rel="noopener">Instagram</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+/* ==========================================================================
+   MEMBERSHIP PAGE — tier grid, tier cards, "how it works", inner circle panel
+   Loaded only on the membership page (index.html), on top of shared.css.
+   ========================================================================== */
+
+/* ---------- TIERS ---------- */
+.tiers{ padding: 100px 0 60px; }
+.tier-grid{
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px;
+}
+.tier-card{
+  position: relative;
+  background: var(--panel);
+  backdrop-filter: var(--card-blur);
+  -webkit-backdrop-filter: var(--card-blur);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 32px 26px 28px;
+  display: flex; flex-direction: column;
+  transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+  --glow: 0.08;
+}
+.tier-card:hover{ transform: translateY(-6px); border-color: var(--border-bright); }
+.tier-card::after{
+  content:''; position:absolute; inset:0; border-radius:18px; pointer-events:none;
+  box-shadow: 0 0 0 rgba(var(--glow-rgb),0);
+  transition: box-shadow .3s ease;
+}
+.tier-card:hover::after{ box-shadow: 0 0 40px rgba(var(--glow-rgb), var(--glow)); }
+
+[data-mode="light"] .tier-card{ box-shadow: var(--card-shadow); }
+[data-mode="light"] .tier-card.t3,
+[data-mode="light"] .tier-card.t4,
+[data-mode="light"] .tier-card.t5{ box-shadow: var(--card-shadow-elevated); }
+[data-mode="light"] .tier-card.t6{ box-shadow: var(--card-shadow-t6); }
+
+/* Ascending glow — later tiers glow more, feel more "elevated" */
+.tier-card.t1{ --glow: 0.10; }
+.tier-card.t2{ --glow: 0.16; }
+.tier-card.t3{ --glow: 0.24; background: linear-gradient(160deg, var(--panel-elevated), var(--panel)); }
+.tier-card.t4{ --glow: 0.32; background: linear-gradient(160deg, var(--panel-elevated), var(--panel)); border-color: rgba(var(--glow-rgb),0.22); }
+.tier-card.t5{ --glow: 0.42; background: linear-gradient(160deg, var(--panel-elevated), var(--panel)); border-color: rgba(var(--glow-rgb),0.30); }
+.tier-card.t6{
+  --glow: 0.55; grid-column: span 3;
+  padding: 40px 40px;
+  flex-direction: row; align-items: center; gap: 36px; justify-content: space-between; flex-wrap: wrap;
+  /* This card is always the dark "inner circle" accent, regardless of site mode —
+     lock its text colors so they stay readable against its own dark background.
+     The lock values themselves still swap with the palette, just below. */
+  --text: #f3ecdd;
+}
+/* Purple palette lock (Web3 look) */
+[data-palette="purple"] .tier-card.t6{
+  background: linear-gradient(115deg, #171025, #1d1530 45%, #130d20);
+  border: 1px solid rgba(183,155,245,0.5);
+  box-shadow: 0 0 46px rgba(155,127,232,0.16);
+  --text-muted: #beb2d9;
+  --gold: #9b7fe8;
+  --gold-bright: #b79bf5;
+  --glow-rgb: 155,127,232;
+}
+/* Gold palette lock (original cinematic look) */
+[data-palette="gold"] .tier-card.t6{
+  background: linear-gradient(115deg, #1f1810, #241c11 45%, #1a1509);
+  border: 1px solid rgba(246,212,120,0.5);
+  box-shadow: 0 0 46px rgba(232,184,74,0.16);
+  --text-muted: #beb29a;
+  --gold: #e8b84b;
+  --gold-bright: #f6d478;
+  --glow-rgb: 232,184,74;
+}
+.tier-card.t6 .tier-body{ flex: 1; min-width: 260px; }
+.tier-card.t6 .tier-cta{ align-self: center; min-width: 220px; }
+
+.tier-icon{ font-size: 1.9rem; margin-bottom: 14px; display:block; }
+.tier-name{ font-family:'Fraunces', serif; font-weight: 600; font-size: 1.28rem; margin-bottom: 6px; }
+.tier-price{
+  font-family:'JetBrains Mono', monospace; font-size: 1.6rem; font-weight: 600;
+  color: var(--gold-bright); margin-bottom: 4px;
+}
+.tier-price span{ font-size: 0.75rem; color: var(--text-muted); font-weight: 400; margin-left: 4px; }
+.tier-sub{ font-size: 0.8rem; color: var(--text-muted); margin-bottom: 22px; font-family:'JetBrains Mono', monospace; }
+
+.tier-features{ list-style:none; display:flex; flex-direction:column; gap: 11px; margin-bottom: 26px; flex:1; }
+.tier-features li{ display:flex; gap: 10px; font-size: 0.9rem; color: var(--text); line-height:1.4; align-items:flex-start; }
+.tier-features li::before{
+  content:'✦'; color: var(--gold); font-size: 0.75rem; margin-top: 3px; flex-shrink:0;
+}
+.tier-features li.inherit{ color: var(--text-muted); font-style: italic; }
+.tier-features li.inherit::before{ content:'↳'; color: var(--text-muted); }
+
+.tier-cta{
+  display:block; text-align:center; padding: 13px 20px; border-radius: 999px;
+  font-family:'JetBrains Mono', monospace; font-size: 0.78rem; letter-spacing:0.03em;
+  text-transform: uppercase; border: 1px solid var(--border-bright);
+  transition: all .25s ease;
+}
+.tier-card.t1 .tier-cta, .tier-card.t2 .tier-cta{ border-color: var(--border); }
+.tier-cta:hover{ background: var(--gold); color:#100c06; box-shadow: 0 0 22px rgba(var(--glow-rgb),0.4); }
+.tier-card.t6 .tier-cta{ background: linear-gradient(120deg, var(--gold-bright), var(--gold)); color:#100c06; font-weight:600; border:none; }
+.tier-card.t6 .tier-cta:hover{ box-shadow: 0 0 32px rgba(var(--glow-rgb),0.55); }
+
+.system-toggle{
+  display: inline-flex; align-items: center; gap: 8px;
+  background: none; border: none; cursor: pointer;
+  font-family:'JetBrains Mono', monospace; font-size: 0.76rem; letter-spacing: 0.04em;
+  text-transform: uppercase; color: var(--gold-bright);
+  padding: 0; margin-top: 4px;
+}
+.system-toggle .chev{ transition: transform .3s ease; }
+.system-toggle[aria-expanded="true"] .chev{ transform: rotate(180deg); }
+.system-toggle:hover{ color: var(--gold); }
+
+.system-panel{
+  max-height: 0; overflow: hidden; transition: max-height .4s ease, margin-top .4s ease;
+  margin-top: 0;
+}
+.system-panel.open{ max-height: 900px; margin-top: 18px; }
+.system-list{
+  list-style: none; display: flex; flex-direction: column; gap: 10px;
+  border-top: 1px solid rgba(var(--glow-rgb),0.18); padding-top: 18px;
+}
+.system-intro{
+  font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
+  font-size: 0.98rem; line-height: 1.55; color: var(--gold-bright);
+  border-top: 1px solid rgba(var(--glow-rgb),0.18); padding-top: 18px;
+}
+.system-panel .system-list{ border-top: none; padding-top: 16px; }
+.system-list li{
+  display: flex; gap: 10px; align-items: flex-start;
+  font-size: 0.86rem; line-height: 1.5; color: var(--text);
+}
+.system-list li span{ flex-shrink: 0; }
+
+.badge-top{
+  position:absolute; top:-12px; right: 24px;
+  background: var(--gold); color:#100c06; font-family:'JetBrains Mono', monospace;
+  font-size: 0.68rem; letter-spacing:0.05em; text-transform:uppercase;
+  padding: 5px 12px; border-radius: 999px; font-weight:600;
+}
+.badge-inner{
+  background: var(--gold-bright);
+}
+
+/* ---------- HOW IT WORKS ---------- */
+.how{ padding: 100px 0; border-top: 1px solid var(--border); }
+.how-grid{ display:grid; grid-template-columns: repeat(3,1fr); gap: 32px; }
+.how-item{ text-align:center; padding: 0 12px; }
+.how-num{
+  font-family:'Fraunces', serif; font-size: 2.2rem; color: var(--gold);
+  margin-bottom: 14px; font-weight: 500;
+}
+.how-item h3{ font-family:'Fraunces', serif; font-size: 1.15rem; font-weight:600; margin-bottom: 10px; }
+.how-item p{ color: var(--text-muted); font-size: 0.92rem; line-height: 1.6; }
+
+/* ---------- MEMBERSHIP RESPONSIVE ---------- */
+@media (max-width: 880px){
+  .tier-grid{ grid-template-columns: repeat(2,1fr); }
+  .tier-card.t6{ grid-column: span 2; flex-direction: column; align-items: stretch; text-align:left; }
+  .tier-card.t6 .tier-cta{ align-self: stretch; }
+  .tier-card.t6 .tier-body, .tier-card.t6 .tier-cta{ min-width: 0; }
+  .how-grid{ grid-template-columns: 1fr; gap: 40px; }
+}
+@media (max-width: 620px){
+  .tier-grid{ grid-template-columns: 1fr; }
+  .tier-card.t6{ grid-column: span 1; padding: 32px 24px; }
+}
