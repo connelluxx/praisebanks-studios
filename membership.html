@@ -13,6 +13,60 @@
 </head>
 <body>
 
+<!-- Page transition loader: SVG progress bar, shows automatically on any
+     internal navigation with a guaranteed minimum visible duration. -->
+<div class="page-loader" id="pageLoader" aria-hidden="true">
+  <svg class="page-loader-svg" viewBox="0 0 100 4" preserveAspectRatio="none">
+    <rect class="page-loader-track" x="0" y="0" width="100" height="4"></rect>
+    <rect class="page-loader-fill" id="pageLoaderFill" x="0" y="0" width="100" height="4"></rect>
+  </svg>
+</div>
+
+<!-- Full-screen dim mask with a centered 3D-style orbiting-rings SVG loader.
+     Runs in sync with the top progress bar above. -->
+<div class="page-loader-mask" id="pageLoaderMask" aria-hidden="true">
+  <div class="loader-3d">
+    <svg class="loader-ring-svg loader-ring-a" viewBox="0 0 100 100">
+      <defs>
+        <linearGradient id="loaderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop class="loader-stop-a" offset="0%"></stop>
+          <stop class="loader-stop-b" offset="100%"></stop>
+        </linearGradient>
+      </defs>
+      <circle class="loader-ring-stroke" cx="50" cy="50" r="42" stroke-width="1.5" opacity="0.35"></circle>
+      <circle class="loader-dot loader-dot-a" cx="92" cy="50" r="5"></circle>
+    </svg>
+    <svg class="loader-ring-svg loader-ring-b" viewBox="0 0 100 100">
+      <circle class="loader-ring-stroke" cx="50" cy="50" r="42" stroke-width="1.2" opacity="0.3"></circle>
+      <circle class="loader-dot loader-dot-b" cx="92" cy="50" r="4.2"></circle>
+    </svg>
+    <svg class="loader-ring-svg loader-ring-c" viewBox="0 0 100 100">
+      <circle class="loader-ring-stroke" cx="50" cy="50" r="42" stroke-width="1" opacity="0.22"></circle>
+      <circle class="loader-dot loader-dot-c" cx="92" cy="50" r="3.5"></circle>
+    </svg>
+    <svg class="loader-core-svg" viewBox="0 0 100 100">
+      <circle class="loader-core" cx="50" cy="50" r="7"></circle>
+    </svg>
+  </div>
+</div>
+
+<!-- Runs immediately, before anything else on the page, so an in-progress
+     page transition stays visible with zero gap — no waiting for the full
+     main.js file (loaded later, at the end of body) to arrive first. -->
+<script>
+(function () {
+  try {
+    if (sessionStorage.getItem('pb-transition-start')) {
+      document.getElementById('pageLoader').classList.add('active');
+      document.getElementById('pageLoaderMask').classList.add('active');
+      var fillEl = document.getElementById('pageLoaderFill');
+      fillEl.style.transition = 'none';
+      fillEl.style.transform = 'scaleX(0.7)';
+    }
+  } catch (err) { /* sessionStorage unavailable (e.g. private mode) — ignore */ }
+})();
+</script>
+
 <nav>
   <div class="wrap">
     <a href="index.html" class="brand"><span class="mark"></span><span class="name">Praisebanks Studios</span></a>
@@ -43,7 +97,6 @@
   <a href="contact.html" class="mobile-overlay-link">Contact</a>
 </div>
 
-
 <section class="hero">
   <div class="wrap">
     <div class="eyebrow">Praisebanks Studios · Membership</div>
@@ -67,7 +120,7 @@
     <div class="tier-grid">
 
       <div class="tier-card t1">
-        <span class="tier-icon">❤️</span>
+        <span class="tier-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5C12 20.5 4.5 15.8 4.5 9.8C4.5 6.8 6.8 4.5 9.7 4.5C11.1 4.5 12 5.3 12 5.3C12 5.3 12.9 4.5 14.3 4.5C17.2 4.5 19.5 6.8 19.5 9.8C19.5 15.8 12 20.5 12 20.5Z"/></svg></span>
         <div class="tier-name">Channel Supporter</div>
         <div class="tier-price">₦5,000<span>/ month</span></div>
         <div class="tier-sub">TIER 01 · THE FIRST STEP</div>
@@ -80,7 +133,7 @@
       </div>
 
       <div class="tier-card t2">
-        <span class="tier-icon">🔥</span>
+        <span class="tier-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3C12 3 8.5 7 8.5 11C8.5 12.2 9 13.3 9.7 14.1C9.5 13.2 9.7 12.2 10.2 11.6C10.5 13 11.3 14.2 12.3 15C13.4 14.2 14.2 13 14.4 11.6C15.2 12.5 15.5 13.7 15.4 14.8C16.3 13.7 16.8 12.3 16.8 10.8C17.8 12 18.3 13.5 18.2 15C18 18.5 15.4 21 12.2 21C8.7 21 6 18.3 6 14.8C6 10.8 9 8 12 3Z"/></svg></span>
         <div class="tier-name">VIP Supporter</div>
         <div class="tier-price">₦10,000<span>/ month</span></div>
         <div class="tier-sub">TIER 02</div>
@@ -93,7 +146,7 @@
 
       <div class="tier-card t3">
         <span class="badge-top">Popular</span>
-        <span class="tier-icon">👑</span>
+        <span class="tier-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18L2.5 8L7.5 11.5L12 5L16.5 11.5L21.5 8L20 18H4Z"/><path d="M4 18H20V20H4V18Z"/></svg></span>
         <div class="tier-name">Premium Member</div>
         <div class="tier-price">₦25,000<span>/ month</span></div>
         <div class="tier-sub">TIER 03</div>
@@ -107,7 +160,7 @@
       </div>
 
       <div class="tier-card t4">
-        <span class="tier-icon">💎</span>
+        <span class="tier-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3H17.5L21.5 9L12 21L2.5 9L6.5 3Z"/><path d="M2.5 9H21.5M9 3L7 9L12 21L17 9L15 3"/></svg></span>
         <div class="tier-name">Elite Member</div>
         <div class="tier-price">₦50,000<span>/ month</span></div>
         <div class="tier-sub">TIER 04</div>
@@ -121,7 +174,7 @@
       </div>
 
       <div class="tier-card t5">
-        <span class="tier-icon">🏆</span>
+        <span class="tier-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4H17V9C17 12.3 14.8 15 12 15C9.2 15 7 12.3 7 9V4Z"/><path d="M7 5H4V7C4 9 5.5 10 7 9.5"/><path d="M17 5H20V7C20 9 18.5 10 17 9.5"/><path d="M12 15V18"/><path d="M8.5 21H15.5"/><path d="M9 18H15V21H9V18Z"/></svg></span>
         <div class="tier-name">Founding Supporter</div>
         <div class="tier-price">₦100,000<span>/ month</span></div>
         <div class="tier-sub">TIER 05</div>
@@ -137,7 +190,7 @@
       <div class="tier-card t6">
         <div class="tier-body">
           <span class="badge-top badge-inner">Inner Circle</span>
-          <span class="tier-icon">⭕</span>
+          <span class="tier-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.2" fill="currentColor" stroke="none"/></svg></span>
           <div class="tier-name">Private Circle</div>
           <div class="tier-price">₦500,000<span>/ month</span></div>
           <div class="tier-sub">TIER 06 · BY INVITATION</div>
@@ -152,19 +205,19 @@
           <div class="system-panel" id="systemPanel">
             <p class="system-intro">A closed community for ambitious minds to connect, collaborate, build businesses, and create opportunities together.</p>
             <ul class="system-list">
-              <li><span>🤝</span> Private monthly meetups — in-person or virtual</li>
-              <li><span>💡</span> Business idea sessions — share and develop ideas together</li>
-              <li><span>📈</span> Trading discussions — markets, strategies and experiences</li>
-              <li><span>🚀</span> Collaboration opportunities — explore projects and businesses together</li>
-              <li><span>🧠</span> Private strategy sessions — goals, challenges and opportunities</li>
-              <li><span>🔐</span> Private Inner Circle group — exclusive community for members</li>
-              <li><span>🎯</span> Personal growth discussions — accountability, goals and development</li>
-              <li><span>🤝</span> Networking — connect with other ambitious members</li>
-              <li><span>🎥</span> Private calls with you — selected group discussions</li>
-              <li><span>💼</span> Early access to business opportunities and projects you choose to share</li>
-              <li><span>🏙️</span> Exclusive physical meetups and events when possible</li>
-              <li><span>👑</span> Lifetime recognition as an Inner Circle member while subscribed</li>
-              <li><span>🌴</span> Members' vacation</li>
+              <li><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M2.5 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><path d="M16.5 11a3 3 0 1 0 0-6"/><path d="M21.5 20c0-2.8-2.1-5-4.5-5.4"/></svg></span> Private monthly meetups — in-person or virtual</li>
+              <li><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18.5h6"/><path d="M10 21.5h4"/><path d="M12 3.5c-3.6 0-6 2.6-6 6.1c0 2.3 1.4 3.7 2.4 4.6c.5.5.6 1 .6 1.6v.7h6v-.7c0-.6.1-1.1.6-1.6c1-.9 2.4-2.3 2.4-4.6c0-3.5-2.4-6.1-6-6.1Z"/></svg></span> Business idea sessions — share and develop ideas together</li>
+              <li><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6l4 4l8-8"/><path d="M15 7h6v6"/></svg></span> Trading discussions — markets, strategies and experiences</li>
+              <li><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c1.6 1.8 2.6 4.6 2.6 7.5c0 2.3-.6 4.2-1.6 5.6l.6 3.4h-3.2l.6-3.4c-1-1.4-1.6-3.3-1.6-5.6C9.4 7.6 10.4 4.8 12 3Z"/><path d="M9.6 13.5L6 17.5L9 17Z" fill="currentColor"/><path d="M14.4 13.5L18 17.5L15 17Z" fill="currentColor"/></svg></span> Collaboration opportunities — explore projects and businesses together</li>
+              <li><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M15.2 8.8L13 13L8.8 15.2L11 11Z" fill="currentColor"/></svg></span> Private strategy sessions — goals, challenges and opportunities</li>
+              <li><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 11V8a5.5 5.5 0 0 1 11 0v3"/><rect x="5" y="11" width="14" height="9" rx="1.5"/></svg></span> Private Inner Circle group — exclusive community for members</li>
+              <li><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg></span> Personal growth discussions — accountability, goals and development</li>
+              <li><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M2.5 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><path d="M16.5 11a3 3 0 1 0 0-6"/><path d="M21.5 20c0-2.8-2.1-5-4.5-5.4"/></svg></span> Networking — connect with other ambitious members</li>
+              <li><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6.5" width="12" height="11" rx="1.3"/><path d="M15 10.5L21 7.5V16.5L15 13.5"/></svg></span> Private calls with you — selected group discussions</li>
+              <li><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="8" width="17" height="11" rx="1.3"/><path d="M8.5 8V6.3c0-.7.6-1.3 1.4-1.3h4.2c.8 0 1.4.6 1.4 1.3V8"/><path d="M3.5 13h17"/></svg></span> Early access to business opportunities and projects you choose to share</li>
+              <li><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20.5V6l5.5-2.5v17"/><path d="M9.5 20.5V9.5l5.5-2.5v13.5"/><path d="M4 20.5h16"/><path d="M6.7 8h.01"/><path d="M6.7 11.5h.01"/><path d="M6.7 15h.01"/><path d="M12.2 11.5h.01"/><path d="M12.2 15h.01"/></svg></span> Exclusive physical meetups and events when possible</li>
+              <li><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18L2.5 8L7.5 11.5L12 5L16.5 11.5L21.5 8L20 18H4Z"/><path d="M4 18H20V20H4V18Z"/></svg></span> Lifetime recognition as an Inner Circle member while subscribed</li>
+              <li><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="4.5"/><path d="M12 3v1.2"/><path d="M15.9 4.8l-.85.85"/><path d="M8.1 4.8l.85.85"/><path d="M20 8.5h-1.2"/><path d="M5.2 8.5H4"/><path d="M16.8 15.5l-.6-1"/><path d="M7.2 15.5l.6-1"/></svg></span> Members' vacation</li>
             </ul>
           </div>
         </div>

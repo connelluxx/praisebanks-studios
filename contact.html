@@ -13,6 +13,60 @@
 </head>
 <body>
 
+<!-- Page transition loader: SVG progress bar, shows automatically on any
+     internal navigation with a guaranteed minimum visible duration. -->
+<div class="page-loader" id="pageLoader" aria-hidden="true">
+  <svg class="page-loader-svg" viewBox="0 0 100 4" preserveAspectRatio="none">
+    <rect class="page-loader-track" x="0" y="0" width="100" height="4"></rect>
+    <rect class="page-loader-fill" id="pageLoaderFill" x="0" y="0" width="100" height="4"></rect>
+  </svg>
+</div>
+
+<!-- Full-screen dim mask with a centered 3D-style orbiting-rings SVG loader.
+     Runs in sync with the top progress bar above. -->
+<div class="page-loader-mask" id="pageLoaderMask" aria-hidden="true">
+  <div class="loader-3d">
+    <svg class="loader-ring-svg loader-ring-a" viewBox="0 0 100 100">
+      <defs>
+        <linearGradient id="loaderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop class="loader-stop-a" offset="0%"></stop>
+          <stop class="loader-stop-b" offset="100%"></stop>
+        </linearGradient>
+      </defs>
+      <circle class="loader-ring-stroke" cx="50" cy="50" r="42" stroke-width="1.5" opacity="0.35"></circle>
+      <circle class="loader-dot loader-dot-a" cx="92" cy="50" r="5"></circle>
+    </svg>
+    <svg class="loader-ring-svg loader-ring-b" viewBox="0 0 100 100">
+      <circle class="loader-ring-stroke" cx="50" cy="50" r="42" stroke-width="1.2" opacity="0.3"></circle>
+      <circle class="loader-dot loader-dot-b" cx="92" cy="50" r="4.2"></circle>
+    </svg>
+    <svg class="loader-ring-svg loader-ring-c" viewBox="0 0 100 100">
+      <circle class="loader-ring-stroke" cx="50" cy="50" r="42" stroke-width="1" opacity="0.22"></circle>
+      <circle class="loader-dot loader-dot-c" cx="92" cy="50" r="3.5"></circle>
+    </svg>
+    <svg class="loader-core-svg" viewBox="0 0 100 100">
+      <circle class="loader-core" cx="50" cy="50" r="7"></circle>
+    </svg>
+  </div>
+</div>
+
+<!-- Runs immediately, before anything else on the page, so an in-progress
+     page transition stays visible with zero gap — no waiting for the full
+     main.js file (loaded later, at the end of body) to arrive first. -->
+<script>
+(function () {
+  try {
+    if (sessionStorage.getItem('pb-transition-start')) {
+      document.getElementById('pageLoader').classList.add('active');
+      document.getElementById('pageLoaderMask').classList.add('active');
+      var fillEl = document.getElementById('pageLoaderFill');
+      fillEl.style.transition = 'none';
+      fillEl.style.transform = 'scaleX(0.7)';
+    }
+  } catch (err) { /* sessionStorage unavailable (e.g. private mode) — ignore */ }
+})();
+</script>
+
 <nav>
   <div class="wrap">
     <a href="index.html" class="brand"><span class="mark"></span><span class="name">Praisebanks Studios</span></a>
@@ -43,7 +97,6 @@
   <a href="contact.html" class="mobile-overlay-link active" aria-current="page">Contact</a>
 </div>
 
-
 <section class="hero contact-hero">
   <div class="wrap">
     <div class="eyebrow">Get in Touch</div>
@@ -56,22 +109,22 @@
   <div class="wrap">
     <div class="inquiry-grid">
       <div class="inquiry-card">
-        <span class="inquiry-icon">💬</span>
+        <span class="inquiry-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.9 8.4a9 9 0 0 1-3.6-.8L3 21l1.9-5.7a8.4 8.4 0 0 1-.8-3.6a8.4 8.4 0 0 1 8.4-8.9h.5a8.5 8.5 0 0 1 8 8v.7Z"/></svg></span>
         <h3>General Inquiries</h3>
         <p>Questions about content, membership, or anything else.</p>
       </div>
       <div class="inquiry-card">
-        <span class="inquiry-icon">💼</span>
+        <span class="inquiry-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="8" width="17" height="11" rx="1.3"/><path d="M8.5 8V6.3c0-.7.6-1.3 1.4-1.3h4.2c.8 0 1.4.6 1.4 1.3V8"/><path d="M3.5 13h17"/></svg></span>
         <h3>Business Inquiries</h3>
         <p>Sponsorships, brand deals, and business-related requests.</p>
       </div>
       <div class="inquiry-card">
-        <span class="inquiry-icon">🤝</span>
+        <span class="inquiry-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M2.5 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><path d="M16.5 11a3 3 0 1 0 0-6"/><path d="M21.5 20c0-2.8-2.1-5-4.5-5.4"/></svg></span>
         <h3>Partnerships</h3>
         <p>Ongoing partnerships and long-term working relationships.</p>
       </div>
       <div class="inquiry-card">
-        <span class="inquiry-icon">🚀</span>
+        <span class="inquiry-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c1.6 1.8 2.6 4.6 2.6 7.5c0 2.3-.6 4.2-1.6 5.6l.6 3.4h-3.2l.6-3.4c-1-1.4-1.6-3.3-1.6-5.6C9.4 7.6 10.4 4.8 12 3Z"/><path d="M9.6 13.5L6 17.5L9 17Z" fill="currentColor"/><path d="M14.4 13.5L18 17.5L15 17Z" fill="currentColor"/></svg></span>
         <h3>Collaboration</h3>
         <p>One-off collaborations, projects, and creative ideas.</p>
       </div>

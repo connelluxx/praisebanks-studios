@@ -13,6 +13,60 @@
 </head>
 <body>
 
+<!-- Page transition loader: SVG progress bar, shows automatically on any
+     internal navigation with a guaranteed minimum visible duration. -->
+<div class="page-loader" id="pageLoader" aria-hidden="true">
+  <svg class="page-loader-svg" viewBox="0 0 100 4" preserveAspectRatio="none">
+    <rect class="page-loader-track" x="0" y="0" width="100" height="4"></rect>
+    <rect class="page-loader-fill" id="pageLoaderFill" x="0" y="0" width="100" height="4"></rect>
+  </svg>
+</div>
+
+<!-- Full-screen dim mask with a centered 3D-style orbiting-rings SVG loader.
+     Runs in sync with the top progress bar above. -->
+<div class="page-loader-mask" id="pageLoaderMask" aria-hidden="true">
+  <div class="loader-3d">
+    <svg class="loader-ring-svg loader-ring-a" viewBox="0 0 100 100">
+      <defs>
+        <linearGradient id="loaderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop class="loader-stop-a" offset="0%"></stop>
+          <stop class="loader-stop-b" offset="100%"></stop>
+        </linearGradient>
+      </defs>
+      <circle class="loader-ring-stroke" cx="50" cy="50" r="42" stroke-width="1.5" opacity="0.35"></circle>
+      <circle class="loader-dot loader-dot-a" cx="92" cy="50" r="5"></circle>
+    </svg>
+    <svg class="loader-ring-svg loader-ring-b" viewBox="0 0 100 100">
+      <circle class="loader-ring-stroke" cx="50" cy="50" r="42" stroke-width="1.2" opacity="0.3"></circle>
+      <circle class="loader-dot loader-dot-b" cx="92" cy="50" r="4.2"></circle>
+    </svg>
+    <svg class="loader-ring-svg loader-ring-c" viewBox="0 0 100 100">
+      <circle class="loader-ring-stroke" cx="50" cy="50" r="42" stroke-width="1" opacity="0.22"></circle>
+      <circle class="loader-dot loader-dot-c" cx="92" cy="50" r="3.5"></circle>
+    </svg>
+    <svg class="loader-core-svg" viewBox="0 0 100 100">
+      <circle class="loader-core" cx="50" cy="50" r="7"></circle>
+    </svg>
+  </div>
+</div>
+
+<!-- Runs immediately, before anything else on the page, so an in-progress
+     page transition stays visible with zero gap — no waiting for the full
+     main.js file (loaded later, at the end of body) to arrive first. -->
+<script>
+(function () {
+  try {
+    if (sessionStorage.getItem('pb-transition-start')) {
+      document.getElementById('pageLoader').classList.add('active');
+      document.getElementById('pageLoaderMask').classList.add('active');
+      var fillEl = document.getElementById('pageLoaderFill');
+      fillEl.style.transition = 'none';
+      fillEl.style.transform = 'scaleX(0.7)';
+    }
+  } catch (err) { /* sessionStorage unavailable (e.g. private mode) — ignore */ }
+})();
+</script>
+
 <nav>
   <div class="wrap">
     <a href="index.html" class="brand"><span class="mark"></span><span class="name">Praisebanks Studios</span></a>
@@ -42,7 +96,6 @@
   <a href="membership.html" class="mobile-overlay-link">Membership</a>
   <a href="contact.html" class="mobile-overlay-link">Contact</a>
 </div>
-
 
 <!-- ============ HERO ============ -->
 <section class="intro-hero">
@@ -113,14 +166,14 @@
           <h3>My 10 Million Naira Luxury Vacation!!!</h3>
         </div>
       </a>
-      <a class="video-card" href="https://youtu.be/AYTIhooPTP8?si=feiHeDSkytamII4R" target="_blank" rel="noopener">
+      <a class="video-card" href="https://youtu.be/pZjhqaFzwzk?si=QSX8kgxTStxgOCfb" target="_blank" rel="noopener">
         <div class="video-thumb media-frame">
-          <img src="images/video-latest.jpg" alt="Week in the life of a Millionaire Forex trader — Abuja Living With My Girlfriend thumbnail">
+          <img src="images/video-latest.jpg" alt="Full Week in the life of a Millionaire Forex Trader// MY LIFE SO FAR">
           <div class="play-btn"><span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span></div>
         </div>
         <div class="video-info">
           <span class="video-label">Latest upload</span>
-          <h3>Week in the Life of a Millionaire Forex Trader // Abuja Living With My Girlfriend</h3>
+          <h3>Full Week in the life of a Millionaire Forex Trader// MY LIFE SO FAR</h3>
         </div>
       </a>
       <a class="video-card" href="https://youtu.be/9UzXkX_WsuM?si=tNo1rd0cEZvp7kFr" target="_blank" rel="noopener">
@@ -150,27 +203,27 @@
     </div>
     <div class="building-grid">
       <div class="building-item">
-        <span class="building-icon">📈</span>
+        <span class="building-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6l4 4l8-8"/><path d="M15 7h6v6"/></svg></span>
         <h3>Trading</h3>
         <p>Live gold market execution and strategy, documented honestly.</p>
       </div>
       <div class="building-item">
-        <span class="building-icon">🎥</span>
+        <span class="building-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6.5" width="12" height="11" rx="1.3"/><path d="M15 10.5L21 7.5V16.5L15 13.5"/></svg></span>
         <h3>Content</h3>
         <p>YouTube and social content built around real trading and business.</p>
       </div>
       <div class="building-item">
-        <span class="building-icon">💼</span>
+        <span class="building-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="8" width="17" height="11" rx="1.3"/><path d="M8.5 8V6.3c0-.7.6-1.3 1.4-1.3h4.2c.8 0 1.4.6 1.4 1.3V8"/><path d="M3.5 13h17"/></svg></span>
         <h3>Business</h3>
         <p>Ventures and offers built from what's actually working.</p>
       </div>
       <div class="building-item">
-        <span class="building-icon">🛠️</span>
+        <span class="building-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 1-5.1 5.1L5 16l3 3l4.6-4.6a4 4 0 0 1 5.1-5.1L21 6l-3-3l-3.3 3.3Z"/></svg></span>
         <h3>Technology</h3>
         <p>Tools and products built to support the trading and creator journey.</p>
       </div>
       <div class="building-item">
-        <span class="building-icon">🤝</span>
+        <span class="building-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M2.5 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><path d="M16.5 11a3 3 0 1 0 0-6"/><path d="M21.5 20c0-2.8-2.1-5-4.5-5.4"/></svg></span>
         <h3>Community</h3>
         <p>Spaces for ambitious people to connect, build, and grow together.</p>
       </div>

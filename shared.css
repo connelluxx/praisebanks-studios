@@ -173,6 +173,103 @@ section[id]{ scroll-margin-top: 96px; }
 
 .wrap{ max-width: 1180px; margin: 0 auto; padding: 0 24px; }
 
+/* ---------- PAGE TRANSITION LOADER ----------
+   A slim SVG progress bar fixed to the very top of the viewport. Hidden
+   by default (opacity 0, fill scaled to 0 width); JS drives it by toggling
+   the "active" class and animating the fill rect's transform. Sits above
+   everything else (nav, mobile overlay) via z-index. */
+.page-loader{
+  position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 2000;
+  opacity: 0; pointer-events: none;
+  transition: opacity .25s ease;
+}
+.page-loader.active{ opacity: 1; }
+.page-loader-svg{ width: 100%; height: 100%; display: block; }
+.page-loader-track{ fill: rgba(var(--glow-rgb),0.15); }
+.page-loader-fill{
+  fill: var(--gold-bright);
+  filter: drop-shadow(0 0 6px rgba(var(--glow-rgb),0.85));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .35s cubic-bezier(.4,0,.2,1);
+}
+
+/* ---------- PAGE TRANSITION MASK + 3D ORBIT LOADER ----------
+   A full-screen dim mask with a centered 3D-style SVG loader (three
+   orbiting rings around a glowing core). Runs in sync with the top bar
+   above — same trigger points, driven from the same JS block. */
+.page-loader-mask{
+  position: fixed; inset: 0; z-index: 1990;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity .3s ease, visibility 0s linear .3s;
+}
+.page-loader-mask.active{
+  opacity: 1; visibility: visible; pointer-events: auto;
+  transition: opacity .3s ease;
+}
+
+.loader-3d{
+  position: relative; width: 108px; height: 108px;
+  perspective: 320px;
+}
+/* Each ring is its OWN separate <svg>, stacked absolutely on top of each
+   other, all as direct children of .loader-3d. This matters: CSS
+   "perspective" on a parent only projects correctly onto direct child
+   boxes — an element nested *inside* a shared SVG's internal coordinate
+   system does not receive the parent's perspective correctly, which
+   produces a distorted "swoosh" instead of a clean tilted ellipse. */
+.loader-ring-svg{
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  overflow: visible;
+  transform-style: preserve-3d;
+}
+.loader-ring-a{ animation: loaderSpinA 1.5s linear infinite; }
+.loader-ring-b{ animation: loaderSpinB 2.1s linear infinite; }
+.loader-ring-c{ animation: loaderSpinC 2.7s linear infinite; }
+@keyframes loaderSpinA{
+  from{ transform: rotateX(64deg) rotateZ(0deg); }
+  to{ transform: rotateX(64deg) rotateZ(360deg); }
+}
+@keyframes loaderSpinB{
+  from{ transform: rotateX(64deg) rotateY(60deg) rotateZ(0deg); }
+  to{ transform: rotateX(64deg) rotateY(60deg) rotateZ(-360deg); }
+}
+@keyframes loaderSpinC{
+  from{ transform: rotateX(64deg) rotateY(120deg) rotateZ(0deg); }
+  to{ transform: rotateX(64deg) rotateY(120deg) rotateZ(360deg); }
+}
+.loader-ring-stroke{
+  fill: none;
+  stroke: url(#loaderGrad);
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 5px rgba(var(--glow-rgb),0.9));
+}
+.loader-stop-a{ stop-color: var(--gold-bright); }
+.loader-stop-b{ stop-color: var(--amber); }
+.loader-dot{
+  fill: var(--gold-bright);
+  filter: drop-shadow(0 0 5px rgba(var(--glow-rgb),0.95));
+}
+.loader-dot-b{ fill: var(--gold); opacity: 0.85; }
+.loader-dot-c{ fill: var(--amber); opacity: 0.7; }
+.loader-core-svg{
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  overflow: visible;
+  animation: loaderPulse 1.4s ease-in-out infinite;
+}
+.loader-core{
+  fill: url(#loaderGrad);
+  filter: drop-shadow(0 0 8px rgba(var(--glow-rgb),0.95));
+}
+@keyframes loaderPulse{
+  0%, 100%{ transform: scale(1); opacity: 1; }
+  50%{ transform: scale(1.18); opacity: 0.75; }
+}
+
 /* ---------- NAV ---------- */
 nav{
   position: fixed; top:0; left:0; right:0; width: 100%; z-index: 100;

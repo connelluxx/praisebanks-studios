@@ -145,3 +145,111 @@
     });
   }
 })();
+
+// ---------- Page transition loader (top bar + center 3D mask) ----------
+// Single continuous show: starts the instant you click a link, stays
+// visible through the actual page navigation (using sessionStorage so the
+// two pages — the one you're leaving and the one you're arriving on —
+// coordinate instead of each independently triggering their own animation),
+// and only completes/fades once the destination page has actually finished
+// loading. On a slow connection this naturally stays visible longer,
+// since it's tied to the real "load" event rather than a fixed timer.
+(function () {
+  var loader = document.getElementById('pageLoader');
+  var fill = document.getElementById('pageLoaderFill');
+  var mask = document.getElementById('pageLoaderMask');
+  if (!loader || !fill) return;
+
+  var STORAGE_KEY = 'pb-transition-start';
+  var MIN_TOTAL_VISIBLE_MS = 500; // guaranteed minimum time shown, click to fade-start
+  var HOLD_AFTER_COMPLETE_MS = 200; // brief pause at 100% before it fades
+
+  function setFill(scale, animated) {
+    fill.style.transition = animated ? 'transform .35s cubic-bezier(.4,0,.2,1)' : 'none';
+    fill.style.transform = 'scaleX(' + scale + ')';
+  }
+
+  function showLoader() {
+    loader.classList.add('active');
+    if (mask) mask.classList.add('active');
+  }
+
+  function hideLoader() {
+    loader.classList.remove('active');
+    if (mask) mask.classList.remove('active');
+  }
+
+  function readStorage(key) {
+    try { return sessionStorage.getItem(key); } catch (err) { return null; }
+  }
+  function writeStorage(key, value) {
+    try { sessionStorage.setItem(key, value); } catch (err) { /* ignore (e.g. private mode) */ }
+  }
+  function clearStorage(key) {
+    try { sessionStorage.removeItem(key); } catch (err) { /* ignore */ }
+  }
+
+  function isInternalPageLink(link) {
+    if (!link || !link.getAttribute) return false;
+    var href = link.getAttribute('href');
+    if (!href) return false;
+    if (href.charAt(0) === '#') return false;
+    if (href.indexOf('mailto:') === 0 || href.indexOf('tel:') === 0) return false;
+    if (link.target === '_blank') return false;
+    if (href.indexOf('http://') === 0 || href.indexOf('https://') === 0) return false;
+    // Only treat plain relative .html links (our own pages) as internal
+    return /\.html(\?.*)?(#.*)?$/i.test(href) || href === '';
+  }
+
+  // ----- Leaving the current page: start the loader, then navigate -----
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest ? e.target.closest('a') : null;
+    if (!isInternalPageLink(link)) return;
+
+    var destination = link.href;
+    e.preventDefault();
+
+    writeStorage(STORAGE_KEY, String(Date.now()));
+
+    showLoader();
+    setFill(0, false);
+    void fill.offsetWidth; // force reflow so the 0-state registers before animating
+    requestAnimationFrame(function () {
+      setFill(0.55, true);
+    });
+
+    // Navigate almost immediately — the bar keeps showing on the next page
+    // rather than resetting, so there's no need to artificially delay here.
+    setTimeout(function () {
+      window.location.href = destination;
+    }, 120);
+  });
+
+  // ----- Arriving on a page: only continue the bar if WE started it -----
+  // (The instant "show immediately" step already happened via the inline
+  // script at the top of the page, before this file even finished
+  // downloading — this just handles completing and hiding it once the
+  // page has actually finished loading.)
+  var transitionStartedAt = readStorage(STORAGE_KEY);
+  if (transitionStartedAt) {
+    window.addEventListener('load', function () {
+      var elapsed = Date.now() - Number(transitionStartedAt);
+      var remaining = Math.max(MIN_TOTAL_VISIBLE_MS - elapsed, 0);
+
+      setTimeout(function () {
+        setFill(1, true);
+        setTimeout(function () {
+          hideLoader();
+          clearStorage(STORAGE_KEY);
+          setTimeout(function () {
+            setFill(0, false);
+          }, 300);
+        }, HOLD_AFTER_COMPLETE_MS);
+      }, remaining);
+    });
+  }
+  // Direct visits, refreshes, and back/forward navigation (no stored
+  // transition) intentionally show nothing — the loader is only for
+  // link-triggered transitions, not every page load.
+})();
+
